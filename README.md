@@ -1,4 +1,3 @@
-
 # SecureChat – Assignment #2 (CS-3002 Information Security, Fall 2025)
 
 This repository is the **official code skeleton** for your Assignment #2.  
@@ -6,6 +5,47 @@ You will build a **console-based, PKI-enabled Secure Chat System** in **Python**
 
 **Confidentiality, Integrity, Authenticity, and Non-Repudiation (CIANR)**.
 
+---
+
+## ✅ Implementation Status
+
+**All core components have been implemented!**
+
+The system includes:
+
+- ✅ Complete PKI infrastructure with self-signed CA
+- ✅ Certificate generation and validation
+- ✅ User registration and login with salted password hashing
+- ✅ Diffie-Hellman key exchange
+- ✅ AES-128-CBC encryption with PKCS#7 padding
+- ✅ RSA-SHA256 digital signatures
+- ✅ Encrypted chat with sequence numbers and timestamps
+- ✅ Append-only transcript logs
+- ✅ Session receipts for non-repudiation
+
+**See [SETUP.md](SETUP.md) for detailed setup and usage instructions.**
+
+## 🚀 Quick Start
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Generate CA and certificates
+python scripts/gen_ca.py
+python scripts/gen_cert.py server localhost
+python scripts/gen_cert.py client client1
+
+# 3. Ensure MySQL is running (update credentials in app/storage/db.py if needed)
+
+# 4. Start server
+python app/server.py
+
+# 5. In another terminal, start client
+python app/client.py
+```
+
+---
 
 ## 🧩 Overview
 
@@ -13,11 +53,13 @@ You are provided only with the **project skeleton and file hierarchy**.
 Each file contains docstrings and `TODO` markers describing what to implement.
 
 Your task is to:
+
 - Implement the **application-layer protocol**.
 - Integrate cryptographic primitives correctly to satisfy the assignment spec.
 - Produce evidence of security properties via Wireshark, replay/tamper tests, and signed session receipts.
 
 ## 🏗️ Folder Structure
+
 ```
 securechat-skeleton/
 ├─ app/
@@ -52,6 +94,7 @@ securechat-skeleton/
    All development and commits must be performed in your fork.
 
 2. **Set up environment**:
+
    ```bash
    python3 -m venv .venv && source .venv/bin/activate
    pip install -r requirements.txt
@@ -59,16 +102,19 @@ securechat-skeleton/
    ```
 
 3. **Initialize MySQL** (recommended via Docker):
+
    ```bash
    docker run -d --name securechat-db        -e MYSQL_ROOT_PASSWORD=rootpass        -e MYSQL_DATABASE=securechat        -e MYSQL_USER=scuser        -e MYSQL_PASSWORD=scpass        -p 3306:3306 mysql:8
    ```
 
 4. **Create tables**:
+
    ```bash
    python -m app.storage.db --init
    ```
 
 5. **Generate certificates** (after implementing the scripts):
+
    ```bash
    python scripts/gen_ca.py --name "FAST-NU Root CA"
    python scripts/gen_cert.py --cn server.local --out certs/server
@@ -108,4 +154,4 @@ When submitting on Google Classroom (GCR):
 ✔ Invalid/self-signed cert rejected (`BAD_CERT`)  
 ✔ Tamper test → signature verification fails (`SIG_FAIL`)  
 ✔ Replay test → rejected by seqno (`REPLAY`)  
-✔ Non-repudiation → exported transcript + signed SessionReceipt verified offline  
+✔ Non-repudiation → exported transcript + signed SessionReceipt verified offline
